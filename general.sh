@@ -2,7 +2,10 @@
 # # Find files with 1 day last access with a postfix _complete
 find /media/files -name *_completed -type f -atime -1 -exec ls {} \;
 
-
+# # Sum all of the columns in a file
+# in paste -s shows serial and -d adds a delimiter
+# bc sums up the numbers
+cat ll.log | cut -d " " -f 5 | paste -sd+ | bc
 
 # ##### Ansible #####
 
