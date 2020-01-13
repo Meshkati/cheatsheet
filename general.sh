@@ -20,3 +20,22 @@ ansible cozet -m copy -a 'src=~/Downloads/something.txt dest=/home/seyed/some.tx
 
 # # Fetch ( akka Copy ) file from remote to host
 ansible cozet -m fetch -a 'src=/home/seyed/1dayaccess.txt dest=/Users/invisible/ flat=true' -u seyed -f 16
+
+
+# ##### Scripts #####
+# # Read lines and do something
+#!/bin/bash
+input="/home/elenoon/hot-25m-7d/file_id.txt"
+var=1
+while IFS= read -r line
+do
+  echo "step "$var
+  prefix=$(echo "$line"|cut -d '/' -f 3)
+  fileid=$(echo "$line"|cut -d '/' -f 4)
+  # making prefix directory
+  mkdir -p "/media/file/minioserver/cold/"$prefix
+  # moving to prefix directories
+  mv "/media/file/minioserver/cold/"$fileid "/media/file/minioserver/cold/"$prefix"/"$fileid
+  var=$((var+1))
+  echo
+done < "$input"
