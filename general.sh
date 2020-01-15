@@ -7,6 +7,9 @@ find /media/files -name *_completed -type f -atime -1 -exec ls {} \;
 # bc sums up the numbers
 cat ll.log | cut -d " " -f 5 | paste -sd+ | bc
 
+# # Convert bytes to human readable
+echo "12345" | numfmt --to=iec-i
+
 # ##### Ansible #####
 
 # # Add ssh key to machines
