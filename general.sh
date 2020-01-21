@@ -10,6 +10,14 @@ cat ll.log | cut -d " " -f 5 | paste -sd+ | bc
 # # Convert bytes to human readable
 echo "12345" | numfmt --to=iec-i
 
+# # Remove files in one file from another file
+# -F for matching string instead of regex
+# -v for not containing ( Necessary )
+# -x whole line match
+# -f read from file
+grep -Fvx -f partial.list complete.list >remaining.list
+
+
 # ##### Ansible #####
 
 # # Add ssh key to machines
