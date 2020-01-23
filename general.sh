@@ -17,6 +17,8 @@ echo "12345" | numfmt --to=iec-i
 # -f read from file
 grep -Fvx -f partial.list complete.list >remaining.list
 
+# # Rate of something
+tail -f /var/log/some.log | grep --line-buffered EVENT1 | pv -l > /dev/null
 
 # ##### Ansible #####
 
