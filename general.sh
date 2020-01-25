@@ -17,6 +17,9 @@ echo "12345" | numfmt --to=iec-i
 # -f read from file
 grep -Fvx -f partial.list complete.list >remaining.list
 
+# # Change reserved percentage storage of ext4
+# 1 here is the 1%
+tune2fs -m 1 /dev/sdXY
 
 # ##### Ansible #####
 
