@@ -17,7 +17,8 @@ echo "12345" | numfmt --to=iec-i
 # -f read from file
 grep -Fvx -f partial.list complete.list >remaining.list
 
-# # Change reserved perc
+# # Change reserved percentage of the storage on ext4
+# here 1 is the 1% of the storage
 tune2fs -m 1 /dev/sdXY
 
 # # Rate of something
