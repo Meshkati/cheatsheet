@@ -17,9 +17,11 @@ echo "12345" | numfmt --to=iec-i
 # -f read from file
 grep -Fvx -f partial.list complete.list >remaining.list
 
-# # Change reserved percentage storage of ext4
-# 1 here is the 1%
+# # Change reserved perc
 tune2fs -m 1 /dev/sdXY
+
+# # Rate of something
+tail -f /var/log/some.log | grep --line-buffered EVENT1 | pv -l > /dev/null
 
 # ##### Ansible #####
 
