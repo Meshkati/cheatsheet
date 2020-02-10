@@ -24,6 +24,9 @@ tune2fs -m 1 /dev/sdXY
 # # Rate of something
 tail -f /var/log/some.log | grep --line-buffered EVENT1 | pv -l > /dev/null
 
+# # Permission for mounted point
+sudo chown seyed /media/files && sudo chmod u+rxw /media/files
+
 # ##### Ansible #####
 
 # # Add ssh key to machines
