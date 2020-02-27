@@ -32,6 +32,9 @@ sync; echo 3 > /proc/sys/vm/drop_caches
 sync; echo 1 > /proc/sys/vm/drop_caches
 # To clear dentries and inodes
 sync; echo 2 > /proc/sys/vm/drop_caches
+# # Permission for mounted point
+sudo chown seyed /media/files && sudo chmod u+rxw /media/files
+
 # ##### Ansible #####
 
 # # Add ssh key to machines
