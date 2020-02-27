@@ -24,6 +24,14 @@ tune2fs -m 1 /dev/sdXY
 # # Rate of something
 tail -f /var/log/some.log | grep --line-buffered EVENT1 | pv -l > /dev/null
 
+
+# # Remove ram cache buffer
+# It clears PageCache, dentries and inodes
+sync; echo 3 > /proc/sys/vm/drop_caches
+# To clear PageCache only
+sync; echo 1 > /proc/sys/vm/drop_caches
+# To clear dentries and inodes
+sync; echo 2 > /proc/sys/vm/drop_caches
 # ##### Ansible #####
 
 # # Add ssh key to machines
