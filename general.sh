@@ -60,6 +60,12 @@ systemctl daemon-reload
 mc admin update c3 http://192.168.2.32:8000/minio.sha256sum --debug
 
 
+# # Export postgres query to csv
+copy(select * from file_stats where bucket='cluster3') to '/tmp/cluster3.csv' With CSV DELIMITER ',';
+
+# # Postgres Histogram query
+select width_bucket(size, 1, 100000000, 50) as buckets, count(*) from file_stats where created_at >= '2020-04-07' AND created_at < '2020-04-08' AND size != 0 group by buckets order by buckets;
+
 # ##### Scripts #####
 # # Read lines and do something
 #!/bin/bash
