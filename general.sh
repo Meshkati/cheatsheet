@@ -32,6 +32,7 @@ sync; echo 3 > /proc/sys/vm/drop_caches
 sync; echo 1 > /proc/sys/vm/drop_caches
 # To clear dentries and inodes
 sync; echo 2 > /proc/sys/vm/drop_caches
+
 # # Permission for mounted point
 sudo chown seyed /media/files && sudo chmod u+rxw /media/files
 
@@ -48,6 +49,15 @@ ansible cozet -m copy -a 'src=~/Downloads/something.txt dest=/home/seyed/some.tx
 
 # # Fetch ( akka Copy ) file from remote to host
 ansible cozet -m fetch -a 'src=/home/seyed/1dayaccess.txt dest=/Users/invisible/ flat=true' -u seyed -f 16
+
+# # Update minio with mc ( minio client )
+# permission to replace the binary file
+sudo chown -R miniouser:miniouser /usr/local/bin/
+# set update env, I found that this is not neccessary
+MINIO_UPDATE=on
+systemctl daemon-reload
+# update command with private mirror
+mc admin update c3 http://192.168.2.32:8000/minio.sha256sum --debug
 
 
 # ##### Scripts #####
