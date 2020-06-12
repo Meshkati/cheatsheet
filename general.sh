@@ -66,6 +66,16 @@ copy(select * from file_stats where bucket='cluster3') to '/tmp/cluster3.csv' Wi
 # # Postgres Histogram query
 select width_bucket(size, 1, 100000000, 50) as buckets, count(*) from file_stats where created_at >= '2020-04-07' AND created_at < '2020-04-08' AND size != 0 group by buckets order by buckets;
 
+
+# # Monitor I/O performance
+# bs:     block size
+# count:  block count
+# oflag:  don't cache
+# For throughput
+dd if=/dev/zero of=destination/test.txt bs=1G count=1 oflag=dsync
+# For latency
+dd if=/dev/zero of=destination/test.txt bs=512 count=1000 oflag=dsync
+
 # ##### Scripts #####
 # # Read lines and do something
 #!/bin/bash
