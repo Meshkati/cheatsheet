@@ -46,3 +46,11 @@ net.ipv4.conf.all.accept_redirects = 0
 net.ipv4.conf.all.accept_source_route = 0
 # MTU discovery, only enable when ICMP blackhole detected
 net.ipv4.tcp_mtu_probing = 1
+
+
+
+# # THP madvise
+# huge pages
+# https://blogs.oracle.com/linux/performance-issues-with-transparent-huge-pages-thp
+echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
+
