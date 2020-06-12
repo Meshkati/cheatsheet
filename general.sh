@@ -76,6 +76,10 @@ dd if=/dev/zero of=destination/test.txt bs=1G count=1 oflag=dsync
 # For latency
 dd if=/dev/zero of=destination/test.txt bs=512 count=1000 oflag=dsync
 
+
+# # Generate random string
+head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16
+
 # ##### Scripts #####
 # # Read lines and do something
 #!/bin/bash
