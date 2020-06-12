@@ -80,6 +80,10 @@ dd if=/dev/zero of=destination/test.txt bs=512 count=1000 oflag=dsync
 # # Generate random string
 head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16
 
+
+# # Split file by lines and numeric postfix
+split -l 1000000 -d sorted.txt m_chunk_
+
 # ##### Scripts #####
 # # Read lines and do something
 #!/bin/bash
