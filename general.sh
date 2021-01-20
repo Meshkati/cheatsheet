@@ -34,6 +34,7 @@ sync; echo 1 > /proc/sys/vm/drop_caches
 sync; echo 2 > /proc/sys/vm/drop_caches
 
 # # Permission for mounted point
+# AKA minio
 sudo chown seyed /media/files && sudo chmod u+rxw /media/files
 
 # ##### Ansible #####
@@ -101,3 +102,22 @@ do
   var=$((var+1))
   echo
 done < "$input"
+
+
+
+# #####  #####
+# Working with fstab
+vim /etc/fstasb
+/dev/mapper/ele_vg-data_lv /media/backup          ext4    defaults        0       2
+
+
+# ##### LV and VG  #####
+# # Remove logical volume data_lv from volume group ele_vg
+lvremove ele_vg/data_lv
+# # remove all logical volumes of a volume group ele_vg
+lvremove ele_vg
+
+# # reduce vg
+vgreduce ele_vg /dev/hda1
+# if the /dev/hda1 is missing ( removed etc. )
+vgreduce ele_vg --removemissing
