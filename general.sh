@@ -67,6 +67,18 @@ copy(select * from file_stats where bucket='cluster3') to '/tmp/cluster3.csv' Wi
 # # Postgres Histogram query
 select width_bucket(size, 1, 100000000, 50) as buckets, count(*) from file_stats where created_at >= '2020-04-07' AND created_at < '2020-04-08' AND size != 0 group by buckets order by buckets;
 
+# # Disable postgres xlog on slave
+select pg_xlog_replay_pause(); -- suspend
+select * from foo; -- your query
+select pg_xlog_replay_resume(); --resume
+
+# # Group by based on day, month, etc.
+SELECT date_trunc('month', file_stats.created_at) "day", count(*)
+FROM file_stats
+WHERE file_stats.created_at >= '2020-03-20'
+    AND file_stats.created_at <= '2021-02-27'
+group by 1
+ORDER BY 1;
 
 # # Monitor I/O performance
 # bs:     block size
