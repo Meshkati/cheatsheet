@@ -51,6 +51,12 @@ ansible cozet -m copy -a 'src=~/Downloads/something.txt dest=/home/seyed/some.tx
 # # Fetch ( akka Copy ) file from remote to host
 ansible cozet -m fetch -a 'src=/home/seyed/1dayaccess.txt dest=/Users/invisible/ flat=true' -u seyed -f 16
 
+# # Restart systemctl service
+ansible minio-c6 -m service -a 'name=minio state=restarted' -u elenoon -K --become
+
+# # Restart the machine
+ansible minio-c6 -a "/sbin/reboot" -u elenoon -K --become
+
 # # Update minio with mc ( minio client )
 # permission to replace the binary file
 sudo chown -R miniouser:miniouser /usr/local/bin/
@@ -133,3 +139,18 @@ lvremove ele_vg
 vgreduce ele_vg /dev/hda1
 # if the /dev/hda1 is missing ( removed etc. )
 vgreduce ele_vg --removemissing
+
+
+
+###### KUBER ######
+# delete stucked terminating namespace
+(
+NAMESPACE=k6-operator-system
+kubectl proxy &
+kubectl get namespace $NAMESPACE -o json |jq '.spec = {"finalizers":[]}' >temp.json
+curl -k -H "Content-Type: application/json" -X PUT --data-binary @temp.json 127.0.0.1:8001/api/v1/namespaces/$NAMESPACE/finalize
+)
+
+# get all resources of a namespace
+kubectl api-resources --verbs=list --namespaced -o name \
+  | xargs -n 1 kubectl get --show-kind --ignore-not-found -n mynamespace
