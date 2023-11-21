@@ -25,6 +25,9 @@ tune2fs -m 1 /dev/sdXY
 tail -f /var/log/some.log | grep --line-buffered EVENT1 | pv -l > /dev/null
 
 
+# # Dump headers in curl
+curl --dump-header - "$@" http://myurl.com
+
 # # Remove ram cache buffer
 # It clears PageCache, dentries and inodes
 sync; echo 3 > /proc/sys/vm/drop_caches
@@ -154,3 +157,29 @@ curl -k -H "Content-Type: application/json" -X PUT --data-binary @temp.json 127.
 # get all resources of a namespace
 kubectl api-resources --verbs=list --namespaced -o name \
   | xargs -n 1 kubectl get --show-kind --ignore-not-found -n mynamespace
+
+
+# Find a pod by its ip address
+kubectl get pods -o custom-columns=:metadata.name --no-headers=true --field-selector status.podIP=10.233.67.244
+
+##### Golang Benchmark #####
+# # Run a benchmark with profiling and trace
+go test -benchmem -run=BenchmarkPublish -bench . -benchtime=1000000x -cpuprofile profile.out -trace=trace.out
+# # check the tracing results
+go tool trace trace.out
+# # check the profile data
+go tool pprof profile.pb.gz
+go tool pprof http://localhost:8000/debug/pprof/heap
+
+
+#### Create Partition more 4TB
+parted /dev/sdb
+mklabel gpt
+unit TB
+mkpart primary 0.00TB 8.80TB
+quit
+
+
+##### Benchmark redis #####
+# arbitary test
+redis-benchmark -h redis-benchmark-master -n 300000 eval "local c = redis.call('get', 'counter'); redis.call('incr','counter'); redis.call('sadd', c % 1000, c); redis.call('smembers', c % 1000);" 0
